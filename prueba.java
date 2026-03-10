@@ -7,8 +7,10 @@ public class EjemploPila {
         pila.push(8);
         pila.push(12);
         System.out.println("pila: " + pila);
-        int ultimo = pila.pop();
-        System.out.println("quitamos : " + ultimo);
+        if (!pila.isEmpty()) {
+            int ultimo = pila.pop();
+            System.out.println("Elemento quitado: " + ultimo);
+        }
         System.out.println("como queda: " + pila);
     }
 }
