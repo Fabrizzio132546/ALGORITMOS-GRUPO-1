@@ -1,6 +1,6 @@
 import java.util.Stack;
 
-public class EjemploPila {
+public class Prueba {
     public static void main(String[] args) {
         Stack<Integer> pila = new Stack<Integer>();
         pila.push(5);
