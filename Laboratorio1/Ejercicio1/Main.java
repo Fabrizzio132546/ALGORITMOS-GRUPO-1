@@ -58,7 +58,6 @@ public class Main {
         Rectangulo rA = new Rectangulo(new Coordenada(x1, y1), new Coordenada(x2, y2));
         Rectangulo rB = new Rectangulo(new Coordenada(x3, y3), new Coordenada(x4, y4));
 
-        // 🔹 Se guarda en el contenedor
         contenedor.addRectangulo(rA);
         contenedor.addRectangulo(rB);
 
@@ -80,7 +79,6 @@ public class Main {
             System.out.println("Son disjuntos");
         }
 
-        // 🔹 Muestra el contenido del contenedor
         System.out.println("\nContenido del contenedor:");
         System.out.println(contenedor);
 
