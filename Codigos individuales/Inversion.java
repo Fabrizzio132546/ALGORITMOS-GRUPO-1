@@ -8,7 +8,6 @@ public class InvertirPalabra {
         for (int i = 0; i < palabra.length(); i++) {
             pila.push(palabra.charAt(i));
         }
-
         System.out.print("Palabra invertida: ");
         while (!pila.isEmpty()) {
             System.out.print(pila.pop());
