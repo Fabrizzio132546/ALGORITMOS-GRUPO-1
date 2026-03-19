@@ -10,6 +10,7 @@ public class Main {
     }
 
     public static Rectangulo rectanguloSobre(Rectangulo r1, Rectangulo r2) {
+        // Calcula el rectángulo de intersección
         double minX = Math.max(r1.getEsquina1().getX(), r2.getEsquina1().getX());
         double minY = Math.max(r1.getEsquina1().getY(), r2.getEsquina1().getY());
         double maxX = Math.min(r1.getEsquina2().getX(), r2.getEsquina2().getX());
@@ -38,6 +39,7 @@ public class Main {
             x2 = sc.nextDouble();
             y2 = sc.nextDouble();
 
+            // Evita rectángulos degenerados (línea o punto)
             esInvalido = (x1 == x2) || (y1 == y2);
 
         } while (esInvalido);
@@ -69,7 +71,7 @@ public class Main {
             System.out.println("Se sobreponen");
 
             Rectangulo rSobre = rectanguloSobre(rA, rB);
-            double area = Math.round(rSobre.calculoArea() * 100.0) / 100.0;
+            double area = Math.round(rSobre.calculoArea() * 100.0) / 100.0; // Redondeo
 
             System.out.println("Area de sobreposicion = " + area);
 
