@@ -13,7 +13,7 @@ public class AnalizadorMinero {
     public AnalizadorMinero(String rutaArchivo) {
         this.rutaArchivo = rutaArchivo;
     }
-
+    // Coordina el flujo principal del análisis
     public void iniciarAnalisis() {
         if (!cargarMatrizDesdeArchivo()) {
             return;
@@ -30,7 +30,7 @@ public class AnalizadorMinero {
         
         sc.close();
     }
-
+    // Persistencia: Carga datos desde archivo y configura el punto decimal
     private boolean cargarMatrizDesdeArchivo() {
         try {
             Scanner scanner = new Scanner(new File(this.rutaArchivo));
@@ -57,7 +57,7 @@ public class AnalizadorMinero {
             return false;
         }
     }
-
+ // Algoritmo de ventana deslizante para recorrer subregiones k x k
     private ResultadoAnalisis buscarMejorRegion(int k) {
         int filas = matrizZonas.length;
         int columnas = matrizZonas[0].length;
@@ -74,7 +74,7 @@ public class AnalizadorMinero {
         }
         return resultadoGlobal;
     }
-
+ // Calcula el valor económico y determina el mineral predominante
     private void evaluarSubRegion(int k, int n, int m, ResultadoAnalisis resultadoGlobal) {
         int m1 = m;
         int n1 = n;
@@ -85,6 +85,7 @@ public class AnalizadorMinero {
         int[] cantidadesRegion = new int[k * k];
         int mineralesDistintosRegion = 0;
         
+     // Escaneo de la ventana actual de tamaño k
         while (c1 <= k - 1) {
             while (c2 <= k - 1) {
                 double valorZona = matrizZonas[n1][m1].getCantidad() * matrizZonas[n1][m1].getPureza();
@@ -119,7 +120,7 @@ public class AnalizadorMinero {
                 n1++;
             }
         }	
-        
+     // Actualiza la mejor región encontrada si el valor actual es superior
         if (resultadoGlobal.mValor == null || valorRegion > resultadoGlobal.mValor.valor) {
             resultadoGlobal.mValor = new MayorValor(n, m, valorRegion);
             resultadoGlobal.mejoresMinerales = mineralesRegion.clone();
@@ -127,7 +128,7 @@ public class AnalizadorMinero {
             resultadoGlobal.mejoresDistintos = mineralesDistintosRegion;
         }
     }
-
+    // Presentación de resultados finales en consola
     private void mostrarResultados(int k, ResultadoAnalisis resultado) {
         String mineralMasAbundante = "";
         int maxCantidad = -1;
