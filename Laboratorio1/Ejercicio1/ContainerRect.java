@@ -6,7 +6,7 @@ public class ContainerRect {
     private double[] distancias;
     private double[] areas;
     private int n;
-    private static int numRec = 0;
+    private static int numRec = 0; // Contador global de rectángulos
 
     public ContainerRect(int n) {
         this.n = n;
@@ -16,12 +16,14 @@ public class ContainerRect {
     }
 
     public void addRectangulo(Rectangulo r) {
+        // Inserta el rectángulo si hay espacio disponible
         if (numRec < n) {
             rectangulos[numRec] = r;
 
             Coordenada c1 = r.getEsquina1();
             Coordenada c2 = r.getEsquina2();
 
+            // Guarda la diagonal y el área
             distancias[numRec] = c1.distancia(c2);
             areas[numRec] = r.calculoArea();
 
