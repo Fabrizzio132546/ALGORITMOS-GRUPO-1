@@ -10,15 +10,16 @@ public class Principal {
     }
 
     public static Rectangulo rectanguloSobre(Rectangulo r1, Rectangulo r2) {
+    	// definimos las variables primero para hacerlo mas comprensible
         double x1_r1 = r1.getEsquina1().getX(); double y1_r1 = r1.getEsquina1().getY();
         double x1_r2 = r2.getEsquina1().getX(); double y1_r2 = r2.getEsquina1().getY();
         
         double x2_r1 = r1.getEsquina2().getX(); double y2_r1 = r1.getEsquina2().getY();
         double x2_r2 = r2.getEsquina2().getX(); double y2_r2 = r2.getEsquina2().getY();
-
+        // tratamos de buscar el minimo de las X y de las Y
         double minX = (x1_r1 > x1_r2) ? x1_r1 : x1_r2;
         double minY = (y1_r1 > y1_r2) ? y1_r1 : y1_r2;
-
+        	// buscamos el maximo el minimo de X y Y
         double maxX = (x2_r1 < x2_r2) ? x2_r1 : x2_r2;
         double maxY = (y2_r1 < y2_r2) ? y2_r1 : y2_r2;
 
@@ -29,10 +30,10 @@ public class Principal {
         Scanner sc = new Scanner(System.in);
         sc.useLocale(Locale.US); 
 
-        double x1, y1, x2, y2;
+        double x1, y1, x2, y2;  //definimos variables
         double x3, y3, x4, y4;
         boolean esInvalido;
-        do {
+        do {    // aplicamos do while para evitar errores al ingresar coordenadas
             System.out.println("Ingrese una esquina del 1er rectángulo:");
             x1 = sc.nextDouble();
             y1 = sc.nextDouble();
