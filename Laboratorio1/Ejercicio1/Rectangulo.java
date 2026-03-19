@@ -10,6 +10,7 @@ public class Rectangulo {
     } 
    
     public void setEsquina1(Coordenada coo) { 
+        // Asegura que esquina1 sea la esquina inferior izquierda
         if (this.esquina2 != null) {
             double minX = Math.min(coo.getX(), this.esquina2.getX());
             double minY = Math.min(coo.getY(), this.esquina2.getY());
@@ -24,6 +25,7 @@ public class Rectangulo {
     } 
  
     public void setEsquina2(Coordenada coo) { 
+        // Reordena automáticamente las esquinas si ya existe esquina1
         if (this.esquina1 != null) {
             double minX = Math.min(this.esquina1.getX(), coo.getX());
             double minY = Math.min(this.esquina1.getY(), coo.getY());
@@ -46,6 +48,7 @@ public class Rectangulo {
     }
     
     public double calculoArea() {
+        // Área = base * altura
         double base = this.esquina2.getX() - this.esquina1.getX();
         double altura = this.esquina2.getY() - this.esquina1.getY();
         return base * altura;
