@@ -1,54 +1,63 @@
-package Ejer_1_Complementando_Act_5;
+package Ejercicio8;
 
 
-public class Chocolatina {
-	private String marca;
+import java.util.Arrays;
+
+public class Main {
 	
-	public Chocolatina(String marca) {
-		this.marca = marca;
+	
+	public static <T> void swap(T[] arreglo, int i, int j) {
 		
-	}
-	
-	public String getMarca() {
-		return marca;
-		
-	}
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-	
-	@Override
-	public String toString() {
-		return marca;
-	}
-	
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) {    // verifica si ambos tienen misma direccion 
-            return true;
-        }
+// verificamos primero que tanto i como J esten dentro del rango del arreglo
+    	if (i >=0 && i< arreglo.length && j >=0 && j <arreglo.length) {
+    		
+    		T copia = arreglo[i];  // copiamos contenido de posicion i
+            arreglo[i] = arreglo[j];  // ponemos el contenido de posicion j en la poisiocn i 
+            arreglo[j] = copia;  // ponemos el contenido q se copio en j
+    	} else {
+    		System.out.println("los indices son incorrectos" + i + ", " + j);
+    	}
 
-        if (o == null) {    // verifia si el objeto es nulo
-            return false;
-        }
-
-        if (o.getClass() != this.getClass()) {  // verifica que el objeto tenga la misma clase 
-            return false; 
-        }
-        Chocolatina otra = (Chocolatina) o; //se aplica casting para que el objeto sea tratado como una chocolatina
-
-           // si los dos atributos son nulos entonces son iguales
-        if (this.marca == null && otra.marca == null) {
-            return true;
-        } 
-           // si el nombre no es nulo entonces compara con equals q tengan mismo contenido
-        if (this.marca != null) {
-        	
-        	// retorna true si tienen e mismo contenido
-            return this.marca.equals(otra.marca);
-        }
-
-        return false;
     }
 	
+	
+	
+    public static void main(String[] args) {
+
+        String[] letras = {"A", "B", "C", "D"};
+        System.out.println("Entrada: " + Arrays.toString(letras));
+        swap(letras, 1, 3); 
+        System.out.println("Salida: " + Arrays.toString(letras));
+        
+        System.out.println("");
+
+        Integer[] numeros = {10, 20, 30, 40};
+        System.out.println("Entrada: " + Arrays.toString(numeros));
+        swap(numeros, 0, 2);
+        System.out.println("Salida: " + Arrays.toString(numeros));
+
+        System.out.println("");
+
+        Chocolatina c1 = new Chocolatina("milka");
+        Chocolatina c2 = new Chocolatina("ferrero");
+        Chocolatina[] choco = {c1, c2};
+        
+        System.out.println("Entrada: " + Arrays.toString(choco));
+        swap(choco, 0, 1);
+        System.out.println("Salida: " + Arrays.toString(choco));
+        
+        System.out.println("");
+        
+        Animales a1 = new Animales("gato");
+        Animales a2 = new Animales("perro");
+        
+        Animales[] anima= {a1, a2};
+        
+        System.out.println("Entrada: " + Arrays.toString(anima));
+        swap(anima, 0, 1);
+        System.out.println("Salida: " + Arrays.toString(anima));
+        
+        
+        
+    }
 }
