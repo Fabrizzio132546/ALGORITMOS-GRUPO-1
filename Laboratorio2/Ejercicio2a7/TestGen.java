@@ -1,51 +1,34 @@
 package Actividad01;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+public class TestGen {
+    public static void main(String[] args) {
+        System.out.println("=== PRUEBA DE CAJONERÍA (GOLOSINAS) ===");
+        Cajoneria<Golosina> miCajoneria = new Cajoneria<>(10);
+        
+        Golosina g1 = new Golosina("Gomita", 10);
+        miCajoneria.add(new Caja<>("Rojo", g1));
+        miCajoneria.add(new Caja<>("Azul", new Golosina("Caramelo", 5)));
+        miCajoneria.add(new Caja<>("Verde", g1)); // Repetida
+        miCajoneria.add(new Caja<>("Amarillo", new Golosina("Chicle", 3)));
+        miCajoneria.add(new Caja<>("Blanco", new Golosina("Paleta", 15)));
 
-public class Cajoneria<T> implements Iterable<Caja<T>> {
-    private ArrayList<Caja<T>> lista = new ArrayList<>();
-    private int tope;
+        System.out.println(miCajoneria);
+        System.out.println("Búsqueda de 'Gomita (10g)': " + miCajoneria.search(g1));
+        System.out.println("Conteo de 'Gomita (10g)': " + miCajoneria.contar(g1));
 
-    public Cajoneria(int tope) { this.tope = tope; }
+        System.out.println("\nEliminando 'Caramelo (5g)'...");
+        miCajoneria.delete(new Golosina("Caramelo", 5));
 
-    public void add(Caja<T> caja) {
-        if (lista.size() < tope) lista.add(caja);
-        else throw new RuntimeException("Cajonería llena");
+        System.out.println("\n=== PRUEBA DE CAJONERÍA (CHOCOLATINAS) ===");
+        Cajoneria<Chocolatina> miCajonCho = new Cajoneria<>(5);
+        Chocolatina ch1 = new Chocolatina("Milka");
+        miCajonCho.add(new Caja<>("Lila", ch1));
+        miCajonCho.add(new Caja<>("Dorado", ch1));
+        
+        System.out.println(miCajonCho);
+        System.out.println("Ocurrencias de Milka: " + miCajonCho.contar(ch1));
     }
-
-    public String search(T elemento) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getContenido().equals(elemento))
-                return "Posición: " + (i + 1) + ", Color: " + lista.get(i).getColor();
-        }
-        return "No encontrado";
-    }
-
-    public T delete(T elemento) {
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getContenido().equals(elemento))
-                return lista.remove(i).getContenido();
-        }
-        return null;
-    }
-
-    public int contar(T elemento) {
-        int c = 0;
-        for (Caja<T> caja : lista) if (caja.getContenido().equals(elemento)) c++;
-        return c;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-10s %-15s %-20s\n", "Posición", "Color Caja", "Objeto"));
-        for (int i = 0; i < lista.size(); i++) {
-            Caja<T> c = lista.get(i);
-            sb.append(String.format("%-10d %-15s %-20s\n", (i+1), c.getColor(), c.getContenido()));
-        }
-        return sb.toString();
-    }
+}
 
     @Override
     public Iterator<Caja<T>> iterator() { return lista.iterator(); }
