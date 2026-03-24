@@ -16,7 +16,7 @@ public class Golosina {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Golosina golosina = (Golosina) o;
-        return Double.compare(golosina.peso, peso) == 0 && Objects.equals(nombre, golosina.nombre);
+        return Double.compare(golosina.peso, this.peso) == 0 && Objects.equals(this.nombre, golosina.nombre);
     }
 
     @Override
