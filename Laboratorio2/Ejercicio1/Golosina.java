@@ -49,4 +49,19 @@ public class Golosina {
 
         return false;
     }
+
+
+    @Override
+    public int compareTo(Golosina otra) {
+        // si la otra golosina no existe la actual se considera mayor
+        if (otra == null) return 1;
+        // si ninguna de las dos golosinas tiene nombre se consideran iguales
+        if (this.nombre == null && otra.nombre == null) return 0;
+        // si mi golosina no tiene nombre pero la otra sí la mia va primero 
+        if (this.nombre == null) return -1;
+        // si la otra golosina no tiene nombre pero la mia si la mia va después 
+        if (otra.nombre == null) return 1;
+        // retorna 0 si son iguales, negativo si va antes, positivo si va despues
+        return this.nombre.compareTo(otra.nombre);
+    } 
 }
