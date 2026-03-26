@@ -48,7 +48,23 @@ public class Chocolatina {
             return this.marca.equals(otra.marca);
         }
 
+		
+
         return false;
     }
+
+	@Override
+	public int compareTo(Chocolatina o) {
+	    // si la otra chocolatina no existe la actual se considera mayor
+	    if (o == null) return 1; 
+	    // si ninguna de las dos chocolatinas tiene marca se consideran iguales
+	    if (this.marca == null && o.marca == null) return 0;
+	    // si mi chocolatina no tiene marca pero la otra si la mia va primero
+	    if (this.marca == null) return -1;
+	    // si la otra chocolatina no tiene marca pero la mia si, la mia va despues 
+	    if (o.marca == null) return 1;
+	    // si ambas tienen marca se comparan alfabeticamente usando string
+	    return this.marca.compareTo(o.marca);
+	}
 	
 }
