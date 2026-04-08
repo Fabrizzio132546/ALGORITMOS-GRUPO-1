@@ -1,1 +1,91 @@
+Actividad 1: 
+
+
+PROCEDIMIENTO contarPares(A : ARREGLO DE ENTEROS, n : ENTERO)
+
+    contador := 0;			// O(1)
+ 
+    PARA i := 0 HASTA n-1 HACER 		// O(n)
+        SI (A[i] MOD 2 = 0) ENTONCES 		// O(1)
+            contador := contador + 1; 		// O(1)
+        FINSI
+    FINPARA
+ 
+    DEVOLVER contador; 			// O(1)
+FINPROCEDIMIENTO
+
+
+Actividad 1A: 
+
+FUNCION max(x : ENTERO, y : ENTERO) : ENTERO
+
+    Result : ENTERO;			// O(1)
+ 
+    SI (x = y) ENTONCES 		// O(1)
+        result := x; 			// O(1)
+    SINO
+        SI (x > y) ENTONCES 		// O(1)
+            result := x; 		// O(1)
+        SINO
+            result := y; 		// O(1)
+        FINSI
+    FINSI
+ 
+    DEVOLVER result; 			// O(1)
+FINFUNCION
+
+
+
+
+
+Actividad 1B: 
+
+FUNCION suma (v : VECTOR(ENTERO), tamaño : ENTERO) : ENTERO
+
+    i, result : ENTERO;			// O(1)
+ 
+    SI (tamaño <= 0) ENTONCES 		// O(1)
+        DEVOLVER 0; 			// O(1)
+    FINSI
+ 
+    result := 0; 			// O(1)
+ 
+    PARA i DESDE 0 HASTA tamaño-1 HACER 		// O(n)
+        SI (v[i] >= 0) ENTONCES 			// O(1)
+            result := result + v[i]; 			// O(1)
+        SINO
+            result := result + v[i];  			// O(1)
+        FINSI
+    FINPARA
+ 
+    DEVOLVER result; 			// O(1)
+FINFUNCION
+
+
+
+
+
+Actividad 1C: 
+
+PROCEDIMIENTO ordenar(REF v : VECTOR(ENTERO), tamaño : ENTERO)
+    i, j, aux : ENTERO;			// O(1)
+ 
+    SI (tamaño <= 1) ENTONCES 		// O(1)
+        DEVOLVER; 		// O(1)
+    FINSI
+ 
+    PARA i DESDE 0 HASTA tamaño-2 HACER 	// O(n)
+        PARA j DESDE 0 HASTA tamaño-2-i HACER 		// O(n)
+            SI (v[j] > v[j+1]) ENTONCES 		// O(1)
+                aux := v[j]; 				// O(1)
+                v[j] := v[j+1]; 			// O(1)
+                v[j+1] := aux;				// O(1)
+            FINSI
+        FINPARA
+    FINPARA
+ 
+FINPROCEDIMIENTO
+
+
+
 
