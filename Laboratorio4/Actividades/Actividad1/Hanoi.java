@@ -6,7 +6,7 @@ System.out.println("=== Torres de Han´oi con " + numDiscos + " disco(s) ===\n")
 torresHanoi(numDiscos, 1, 2, 3);
 }
 // Método recursivo para la soluciónn de las Torres de Hanoi
-// Par´ametros:
+// Parámetros:
 // discos → número de discos a mover
 // torre1 → torre origen
 // torre2 → torre auxiliar
