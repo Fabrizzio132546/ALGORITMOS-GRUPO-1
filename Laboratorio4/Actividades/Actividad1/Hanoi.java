@@ -2,7 +2,7 @@ package Actividades;
 public class Hanoi {
 public static void main(String[] args) {
 int numDiscos = 3;
-System.out.println("=== Torres de Han´oi con " + numDiscos + " disco(s) ===\n");
+System.out.println("=== Torres de Hanoi con " + numDiscos + " disco(s) ===\n");
 torresHanoi(numDiscos, 1, 2, 3);
 }
 // Método recursivo para la soluciónn de las Torres de Hanoi
