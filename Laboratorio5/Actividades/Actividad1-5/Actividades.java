@@ -22,34 +22,24 @@ class Tarea implements Comparable<Tarea> {
     }
 
     public String getTitulo() { return titulo; }
+    public int getPrioridad() { return prioridad; }
     public String getEstado() { return estado; }
 
-    // IMPORTANTE: Compara la prioridad para establecer un "orden" entre tareas.
-    // Retorna negativo si 'this' tiene un número menor (es decir, mayor prioridad).
+    // El compareTo ahora define la "identidad" de la tarea basándose en el título
     @Override
     public int compareTo(Tarea otra) {
-        return Integer.compare(this.prioridad, otra.prioridad);
+        return this.titulo.compareTo(otra.titulo);
     }
 
     @Override
     public String toString() {
         return "[" + titulo + " | Prioridad: " + prioridad + " | Estado: " + estado + "]";
     }
-
-    // IMPORTANTE: Sobrescribir equals cambia la regla de igualdad. 
-    // Ahora Java sabe que si buscamos o eliminamos una tarea con el mismo TÍTULO, 
-    // es la misma tarea, aunque sea una instancia diferente en memoria.
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Tarea tarea = (Tarea) obj;
-        return titulo.equals(tarea.titulo); 
-    }
 }
 
 // 3. Clase ListLinked<T>
-class ListLinked<T> {
+// Exigimos que T sea Comparable para poder usar compareTo() en sus métodos
+class ListLinked<T extends Comparable<T>> {
     Node<T> head;
 
     public boolean isEmptyList() {
@@ -62,8 +52,6 @@ class ListLinked<T> {
         head = newNode;
     }
 
-    // LÓGICA: Recorre la lista hasta que el 'next' de un nodo sea null (el último).
-    // Ahí enlaza el nuevo nodo.
     public void insertLast(T x) {
         Node<T> newNode = new Node<>(x);
         if (isEmptyList()) {
@@ -77,23 +65,23 @@ class ListLinked<T> {
         temp.next = newNode;
     }
 
-    // LÓGICA: Se detiene en el nodo ANTERIOR al que queremos eliminar.
-    // Luego "puentea" el nodo objetivo (current.next = current.next.next).
     public boolean removeNode(T x) {
         if (isEmptyList()) return false;
         
-        if (head.value.equals(x)) {
+        // Uso de compareTo en lugar de equals para la cabeza
+        if (head.value.compareTo(x) == 0) {
             head = head.next;
             return true;
         }
         
         Node<T> current = head;
-        while (current.next != null && !current.next.value.equals(x)) {
+        // Uso de compareTo en lugar de equals para el resto de la lista
+        while (current.next != null && current.next.value.compareTo(x) != 0) {
             current = current.next;
         }
         
         if (current.next != null) {
-            current.next = current.next.next; // Desvinculación
+            current.next = current.next.next;
             return true;
         }
         return false;
@@ -102,7 +90,8 @@ class ListLinked<T> {
     public boolean search(T x) {
         Node<T> current = head;
         while (current != null) {
-            if (current.value.equals(x)) return true; // Usa el equals() de Tarea
+            // Uso de compareTo en lugar de equals
+            if (current.value.compareTo(x) == 0) return true;
             current = current.next;
         }
         return false;
@@ -126,8 +115,6 @@ class ListLinked<T> {
         }
     }
 
-    // LÓGICA: Usa 3 punteros (prev, current, next) para no romper la cadena 
-    // mientras voltea la flecha (next) de cada nodo hacia atrás.
     public void reverse() {
         Node<T> prev = null;
         Node<T> current = head;
@@ -135,17 +122,15 @@ class ListLinked<T> {
         
         while (current != null) {
             next = current.next; 
-            current.next = prev; // Inversión real
+            current.next = prev; 
             prev = current;      
             current = next;      
         }
-        head = prev; // La antigua cola ahora es la cabeza
+        head = prev; 
     }
 }
 
 // 4. Clase GestorDeTareas<T>
-// IMPORTANTE: <T extends Comparable<T>> asegura que el objeto que maneje 
-// este gestor obligatoriamente tenga el método compareTo().
 class GestorDeTareas<T extends Comparable<T>> {
     ListLinked<T> lista;
 
@@ -160,8 +145,6 @@ class GestorDeTareas<T extends Comparable<T>> {
     public int contarTareas() { return lista.length(); }
     public void invertirTareas() { lista.reverse(); }
 
-    // LÓGICA: Recorre la lista guardando el elemento más pequeño (según compareTo).
-    // Como prioridad 1 es menor que 2 o 3 matemáticamente, halla la más prioritaria.
     public T obtenerTareaMasPrioritaria() {
         if (lista.isEmptyList()) return null;
         
@@ -169,8 +152,15 @@ class GestorDeTareas<T extends Comparable<T>> {
         T masPrioritaria = current.value;
 
         while (current != null) {
-            if (current.value.compareTo(masPrioritaria) < 0) {
-                masPrioritaria = current.value;
+            // Validamos que los objetos sean de tipo Tarea para comparar sus prioridades numéricas
+            if (current.value instanceof Tarea && masPrioritaria instanceof Tarea) {
+                Tarea tActual = (Tarea) current.value;
+                Tarea tMax = (Tarea) masPrioritaria;
+                
+                // Prioridad 1 es mejor que 2
+                if (tActual.getPrioridad() < tMax.getPrioridad()) {
+                    masPrioritaria = current.value;
+                }
             }
             current = current.next;
         }
@@ -196,8 +186,11 @@ public class Main {
         gestor.eliminarTarea(new Tarea("Code review", 2, "pendiente"));
         gestor.imprimirTareas();
 
+        System.out.println("\n--- Verificando existencia ---");
+        System.out.println("¿Existe 'Diseñar BD'?: " + gestor.contieneTarea(new Tarea("Diseñar BD", 2, "pendiente")));
+
         System.out.println("\n--- Mas prioritaria ---");
-        System.out.println(gestor.obtenerTareaMasPrioritaria());
+        System.out.println("Mas prioritaria: " + gestor.obtenerTareaMasPrioritaria());
 
         System.out.println("\n--- Lista Invertida ---");
         gestor.invertirTareas();
@@ -205,6 +198,7 @@ public class Main {
         
         System.out.println("\n--- Tareas Completadas (Nueva Lista) ---");
         ListLinked<Tarea> listaCompletadas = new ListLinked<>();
+        
         Node<Tarea> current = gestor.lista.head;
         while (current != null) {
             if ("completada".equals(current.value.getEstado())) {
