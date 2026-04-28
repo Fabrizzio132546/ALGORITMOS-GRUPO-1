@@ -16,8 +16,11 @@ public class Main {
         gestor.eliminarTarea(new Tarea("Code review", 2, "pendiente"));
         gestor.imprimirTareas();
 
+        System.out.println("\n--- Verificando existencia ---");
+        System.out.println("¿Existe 'Diseñar BD'?: " + gestor.contieneTarea(new Tarea("Diseñar BD", 2, "pendiente")));
+
         System.out.println("\n--- Mas prioritaria ---");
-        System.out.println(gestor.obtenerTareaMasPrioritaria());
+        System.out.println("Mas prioritaria: " + gestor.obtenerTareaMasPrioritaria());
 
         System.out.println("\n--- Lista Invertida ---");
         gestor.invertirTareas();
@@ -25,6 +28,7 @@ public class Main {
         
         System.out.println("\n--- Tareas Completadas (Nueva Lista) ---");
         ListLinked<Tarea> listaCompletadas = new ListLinked<>();
+        
         Node<Tarea> current = gestor.lista.head;
         while (current != null) {
             if ("completada".equals(current.value.getEstado())) {
