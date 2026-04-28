@@ -11,28 +11,17 @@ class Tarea implements Comparable<Tarea> {
     }
 
     public String getTitulo() { return titulo; }
+    public int getPrioridad() { return prioridad; }
     public String getEstado() { return estado; }
 
-    // IMPORTANTE: Compara la prioridad para establecer un "orden" entre tareas.
-    // Retorna negativo si 'this' tiene un número menor (es decir, mayor prioridad).
+    // El compareTo ahora define la "identidad" de la tarea basándose en el título
     @Override
     public int compareTo(Tarea otra) {
-        return Integer.compare(this.prioridad, otra.prioridad);
+        return this.titulo.compareTo(otra.titulo);
     }
 
     @Override
     public String toString() {
         return "[" + titulo + " | Prioridad: " + prioridad + " | Estado: " + estado + "]";
-    }
-
-    // IMPORTANTE: Sobrescribir equals cambia la regla de igualdad. 
-    // Ahora Java sabe que si buscamos o eliminamos una tarea con el mismo TÍTULO, 
-    // es la misma tarea, aunque sea una instancia diferente en memoria.
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Tarea tarea = (Tarea) obj;
-        return titulo.equals(tarea.titulo); 
     }
 }
