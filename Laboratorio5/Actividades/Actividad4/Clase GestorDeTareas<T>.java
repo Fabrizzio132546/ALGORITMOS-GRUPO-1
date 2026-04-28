@@ -1,6 +1,4 @@
 // 4. Clase GestorDeTareas<T>
-// IMPORTANTE: <T extends Comparable<T>> asegura que el objeto que maneje 
-// este gestor obligatoriamente tenga el método compareTo().
 class GestorDeTareas<T extends Comparable<T>> {
     ListLinked<T> lista;
 
@@ -15,8 +13,6 @@ class GestorDeTareas<T extends Comparable<T>> {
     public int contarTareas() { return lista.length(); }
     public void invertirTareas() { lista.reverse(); }
 
-    // LÓGICA: Recorre la lista guardando el elemento más pequeño (según compareTo).
-    // Como prioridad 1 es menor que 2 o 3 matemáticamente, halla la más prioritaria.
     public T obtenerTareaMasPrioritaria() {
         if (lista.isEmptyList()) return null;
         
@@ -24,8 +20,15 @@ class GestorDeTareas<T extends Comparable<T>> {
         T masPrioritaria = current.value;
 
         while (current != null) {
-            if (current.value.compareTo(masPrioritaria) < 0) {
-                masPrioritaria = current.value;
+            // Validamos que los objetos sean de tipo Tarea para comparar sus prioridades numéricas
+            if (current.value instanceof Tarea && masPrioritaria instanceof Tarea) {
+                Tarea tActual = (Tarea) current.value;
+                Tarea tMax = (Tarea) masPrioritaria;
+                
+                // Prioridad 1 es mejor que 2
+                if (tActual.getPrioridad() < tMax.getPrioridad()) {
+                    masPrioritaria = current.value;
+                }
             }
             current = current.next;
         }
