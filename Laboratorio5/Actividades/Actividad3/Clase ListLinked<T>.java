@@ -1,5 +1,6 @@
 // 3. Clase ListLinked<T>
-class ListLinked<T> {
+// Exigimos que T sea Comparable para poder usar compareTo() en sus métodos
+class ListLinked<T extends Comparable<T>> {
     Node<T> head;
 
     public boolean isEmptyList() {
@@ -12,8 +13,6 @@ class ListLinked<T> {
         head = newNode;
     }
 
-    // LÓGICA: Recorre la lista hasta que el 'next' de un nodo sea null (el último).
-    // Ahí enlaza el nuevo nodo.
     public void insertLast(T x) {
         Node<T> newNode = new Node<>(x);
         if (isEmptyList()) {
@@ -27,23 +26,23 @@ class ListLinked<T> {
         temp.next = newNode;
     }
 
-    // LÓGICA: Se detiene en el nodo ANTERIOR al que queremos eliminar.
-    // Luego "puentea" el nodo objetivo (current.next = current.next.next).
     public boolean removeNode(T x) {
         if (isEmptyList()) return false;
         
-        if (head.value.equals(x)) {
+        // Uso de compareTo en lugar de equals para la cabeza
+        if (head.value.compareTo(x) == 0) {
             head = head.next;
             return true;
         }
         
         Node<T> current = head;
-        while (current.next != null && !current.next.value.equals(x)) {
+        // Uso de compareTo en lugar de equals para el resto de la lista
+        while (current.next != null && current.next.value.compareTo(x) != 0) {
             current = current.next;
         }
         
         if (current.next != null) {
-            current.next = current.next.next; // Desvinculación
+            current.next = current.next.next;
             return true;
         }
         return false;
@@ -52,7 +51,8 @@ class ListLinked<T> {
     public boolean search(T x) {
         Node<T> current = head;
         while (current != null) {
-            if (current.value.equals(x)) return true; // Usa el equals() de Tarea
+            // Uso de compareTo en lugar de equals
+            if (current.value.compareTo(x) == 0) return true;
             current = current.next;
         }
         return false;
@@ -76,8 +76,6 @@ class ListLinked<T> {
         }
     }
 
-    // LÓGICA: Usa 3 punteros (prev, current, next) para no romper la cadena 
-    // mientras voltea la flecha (next) de cada nodo hacia atrás.
     public void reverse() {
         Node<T> prev = null;
         Node<T> current = head;
@@ -85,10 +83,11 @@ class ListLinked<T> {
         
         while (current != null) {
             next = current.next; 
-            current.next = prev; // Inversión real
+            current.next = prev; 
             prev = current;      
             current = next;      
         }
-        head = prev; // La antigua cola ahora es la cabeza
+        head = prev; 
     }
 }
+
