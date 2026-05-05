@@ -27,17 +27,17 @@ public class PriorityQueueHybrid<E, V extends Comparable<V>> implements Priority
             throw new IllegalArgumentException("Nivel fuera de rango");
         }
 
-        Entry newEntry = new Entry(x, secValue);
-        Node<Entry> newNode = new Node<>(newEntry);
-        Node<Entry> actual = queues[level];
+        Entry newEntry = new Entry(x, secValue); // Se crea el paquete
+        Node<Entry> newNode = new Node<>(newEntry); // Se crea el nodo con el paquete como dato
+        Node<Entry> actual = queues[level]; // Se asigna el actual al primer elemento de la cola
 
-        if (actual == null || secValue.compareTo(actual.getData().secValue) < 0) {
-            newNode.setNext(actual);
-            queues[level] = newNode;
+        if (actual == null || secValue.compareTo(actual.getData().secValue) < 0) { //compara si está vacío o si el valor es menor que la del primer nodo
+            newNode.setNext(actual); //se conecta 
+            queues[level] = newNode; //se asigna nuevo first
             return;
         }
 
-        while (actual.getNext() != null && actual.getNext().getData().secValue.compareTo(secValue) <= 0) {
+        while (actual.getNext() != null && actual.getNext().getData().secValue.compareTo(secValue) <= 0) { // se compara si está en la posición
             actual = actual.getNext();
         }
 
