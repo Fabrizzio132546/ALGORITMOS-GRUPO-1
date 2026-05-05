@@ -1,7 +1,5 @@
 package Ejercicio3;
 
-import java.util.List;
-
 class MultiColaPrioridad<E> {
 	// arreglo que almacena las distintas colas
     private QueueLink<E>[] colas; 
@@ -51,7 +49,7 @@ class MultiColaPrioridad<E> {
         return true;
     }
 
-    public List<E> obtenerElementosDeCola(int prioridad) {
+    public java.util.List<E> obtenerElementosDeCola(int prioridad) {
     	// retorna los notos de la cola convertidos en una lista 
         return colas[prioridad].getElementosComoLista();
     }
