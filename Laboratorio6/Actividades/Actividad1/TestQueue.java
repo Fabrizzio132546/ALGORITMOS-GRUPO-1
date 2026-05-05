@@ -3,6 +3,7 @@ package actividad1;
 public class TestQueue {
     public static void main(String[] args) {
         try {
+            // Prueba con Integer
             System.out.println("--- Prueba con Integer ---");
             QueueArray<Integer> queueInt = new QueueArray<>(3);
             queueInt.enqueue(10);
@@ -12,6 +13,7 @@ public class TestQueue {
             System.out.println("Dequeue: " + queueInt.dequeue());
             System.out.println("Cola entera tras dequeue: " + queueInt.toString());
 
+            // Prueba con String
             System.out.println("\n--- Prueba con String ---");
             QueueArray<String> queueStr = new QueueArray<>(2);
             queueStr.enqueue("Hola");
