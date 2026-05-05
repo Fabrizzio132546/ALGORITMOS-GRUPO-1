@@ -1,8 +1,5 @@
 package Ejercicio3;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 class Node<E> {
     E data;       
@@ -66,8 +63,8 @@ public class QueueLink<E> implements Queue<E>{
         return fin;
     }
     // esteme metodo sirve para poder mandar una lista
-    public List<E> getElementosComoLista() {
-        List<E> lista = new ArrayList<>();
+    public java.util.List<E> getElementosComoLista() {
+        java.util.List<E> lista = new java.util.ArrayList<>();
         Node<E> actual = inicio;
         while (actual != null) {
             lista.add(actual.data);
