@@ -37,7 +37,16 @@ class StackLink<E> implements Stack<E> {
         // Evalúa si el nodo tope es igual a null, dando como resultado true si no hay elementos.
         return this.top == null;
     }
-
+ // Método para la interfaz gráfica: retorna los elementos como una lista estándar
+    public java.util.List<E> getElementosComoLista() {
+        java.util.List<E> lista = new java.util.ArrayList<>();
+        Node<E> actual = this.top;
+        while (actual != null) {
+            lista.add(actual.getData());
+            actual = actual.getNext();
+        }
+        return lista;
+    }
     public String toString() {
         if (isEmpty()) return "Pila vacía";
         StringBuilder sb = new StringBuilder("Tope -> ");
