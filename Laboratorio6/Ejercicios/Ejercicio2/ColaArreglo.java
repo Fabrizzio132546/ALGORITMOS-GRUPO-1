@@ -47,4 +47,15 @@ public class ColaArreglo {
 
     public boolean isEmpty() { return size == 0; }
     public boolean isFull() { return size == capacity; }
+    
+ // Método para la interfaz gráfica: retorna los elementos como una lista estándar
+    public java.util.List<Integer> getElementosComoLista() {
+        java.util.List<Integer> lista = new java.util.ArrayList<>();
+        int current = front;
+        for (int i = 0; i < size; i++) {
+            lista.add(array[current]);
+            current = (current + 1) % capacity;
+        }
+        return lista;
+    }
 }
