@@ -158,26 +158,25 @@ public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E> {
     // EJERCICIO 5--------------------------
 
     public String searchRange(E min, E max) {
-    	StringBuilder sb = new StringBuilder();
-    	searchRangeRec(this.root, min, max, sb);
-    	return sb.toString();
+        return searchRangeRec(this.root, min, max);
     }
 
-    private void searchRangeRec(Node<E> n, E min, E max, StringBuilder sb) {
-        if (n == null) return;
-
+    private String searchRangeRec(Node<E> n, E min, E max) {
+        if (n == null) {
+            return "";
+        }
+        String resultado = "";
         if (min.compareTo(n.data) < 0) {
-            searchRangeRec(n.left, min, max, sb);
+            resultado += searchRangeRec(n.left, min, max);
         }
-
         if (min.compareTo(n.data) <= 0 && max.compareTo(n.data) >= 0) {
-            // AGREGAMOS EL SALTO DE LÍNEA Y 3 ESPACIOS ANTES DEL DATO
-            sb.append("\n   ").append(n.data.toString());
+            resultado += "\n   " + n.data.toString();
+        }
+        if (max.compareTo(n.data) > 0) {
+            resultado += searchRangeRec(n.right, min, max);
         }
 
-        if (max.compareTo(n.data) > 0) {
-            searchRangeRec(n.right, min, max, sb);
-        }
+        return resultado;
     }
 
     public int countLeaves() {
