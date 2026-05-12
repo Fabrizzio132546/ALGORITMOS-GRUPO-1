@@ -1,7 +1,5 @@
 package Ejercicio02;
 
-import java.util.LinkedList;
-import java.util.Queue;
 
 // Excepción personalizada para cuando el árbol está vacío
 class ExceptionIsEmpty extends Exception {
@@ -105,16 +103,16 @@ class LinkedBST {
 
         // Calcular la altura de manera iterativa usando una  Cola 
         int h = -1; // Se asume que un nodo hoja tiene altura 0 (entonces empezamos en -1)
-        Queue<Node> queue = new LinkedList<>();
+        QueueLink<Node> queue = new QueueLink<>();
         queue.add(current);
 
         while (!queue.isEmpty()) {
             int levelSize = queue.size();
             h++; // Por cada nivel que bajamos, aumentamos la altura en 1
             for (int i = 0; i < levelSize; i++) {
-                Node tempNode = queue.poll();
-                if (tempNode.left != null) queue.add(tempNode.left);
-                if (tempNode.right != null) queue.add(tempNode.right);
+                Node tempNode = queue.dequeue();
+                if (tempNode.left != null) queue.enqueue(tempNode.left);
+                if (tempNode.right != null) queue.enqueue(tempNode.right);
             }
         }
         return h;
