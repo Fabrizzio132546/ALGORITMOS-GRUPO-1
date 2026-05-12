@@ -15,7 +15,7 @@ public class Prueba {
 
         System.out.println("Salida del recorrido In-Orden (debe ser: 50 75 100 200 400 700):");
         
-        // Ejecutando la prueba
+        // Ejecutando la orden
         arbol.inOrder();
     }
 }
