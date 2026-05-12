@@ -63,7 +63,7 @@ class LinkedBST<T extends Comparable<T>> {
         int leafCount = 0;
 
         // Cola para recorrido por niveles
-        QueueLink<Node> queue = new LinkedList<>();
+        QueueLink<Node> queue = new QueueLink<>();
 
         queue.enqueue(root);
 
