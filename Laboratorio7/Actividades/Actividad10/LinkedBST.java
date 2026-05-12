@@ -13,10 +13,6 @@ public class LinkedBST<E extends Comparable<E>>
         this.root = null;
     }
 
-    // =====================================================
-    // INSERT
-    // =====================================================
-
     @Override
     public void insert(E data) throws ItemDuplicated {
         this.root = insertRec(data, this.root);
