@@ -4,8 +4,7 @@ import exceptions.ExceptionIsEmpty;
 import exceptions.ItemDuplicated;
 import exceptions.ItemNotFound;
 
-public class LinkedBST<E extends Comparable<E>>
-        implements BinarySearchTree<E> {
+public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E> {
 
     private Node<E> root;
 
@@ -18,6 +17,7 @@ public class LinkedBST<E extends Comparable<E>>
         this.root = insertRec(data, this.root);
     }
 
+    // Mantiene la propiedad fundamental del BST: Izquierda < Raíz < Derecha
     protected Node<E> insertRec(E data, Node<E> actual) throws ItemDuplicated {
         Node<E> res = actual;
         if (actual == null) {
@@ -44,6 +44,7 @@ public class LinkedBST<E extends Comparable<E>>
         }
         return buscado.data;
     }
+
     private Node<E> searchRec(E data, Node<E> actual) {
         if (actual == null) {
             return null;
@@ -61,13 +62,12 @@ public class LinkedBST<E extends Comparable<E>>
 
     @Override
     public void delete(E data) throws ExceptionIsEmpty {
-
         if (isEmpty()) {
             throw new ExceptionIsEmpty("El árbol BST está vacío");
         }
-
         this.root = deleteRec(this.root, data);
     }
+
     private Node<E> deleteRec(Node<E> actual, E data) {
         if (actual == null) {
             return null;
@@ -77,18 +77,19 @@ public class LinkedBST<E extends Comparable<E>>
             actual.left = deleteRec(actual.left, data);
         } else if (resC > 0) {
             actual.right = deleteRec(actual.right, data);
-        }
-        else {
+        } else {
+            // Nodo a eliminar encontrado. Manejo de los 3 casos:
             if (actual.left == null && actual.right == null) {
-                return null;
+                return null; // Caso 1: Hoja
             }
             if (actual.left == null) {
-                return actual.right;
+                return actual.right; // Caso 2: Un hijo (derecho)
             }
             if (actual.right == null) {
-                return actual.left;
+                return actual.left; // Caso 2: Un hijo (izquierdo)
             }
 
+            // Caso 3: Dos hijos. Se busca el sucesor (el mínimo del subárbol derecho)
             try {
                 E sucesor = findMinNode(actual.right);
                 actual.data = sucesor;
@@ -100,39 +101,46 @@ public class LinkedBST<E extends Comparable<E>>
         return actual;
     }
 
-    private E findMinNode(Node<E> node) throws ItemNotFound {
+    // ==========================================
+    // BÚSQUEDA DE EXTREMOS (MIN / MAX)
+    // Patrón Wrapper: Un método público sin parámetros que llama a uno privado recursivo
+    // ==========================================
 
+    // Helper interno: Busca iterativamente hacia la rama izquierda
+    private E findMinNode(Node<E> node) throws ItemNotFound {
         if (node == null) {
             throw new ItemNotFound("Subárbol vacío");
         }
         Node<E> actual = node;
-
+        // El menor elemento siempre está en el extremo izquierdo
         while (actual.left != null) {
             actual = actual.left;
         }
-        return search(actual.data);
+        return search(actual.data); // Validación extra requerida por tu laboratorio
     }
-    public E findMin() throws ItemNotFound {
 
+    // Método público: Inicia la búsqueda del mínimo desde la raíz del árbol
+    public E findMin() throws ItemNotFound {
         if (isEmpty()) {
             throw new ItemNotFound("El árbol BST está vacío");
         }
-
         return findMinNode(this.root);
     }
 
+    // Helper interno: Busca iterativamente hacia la rama derecha
     private E findMaxNode(Node<E> node) throws ItemNotFound {
         if (node == null) {
             throw new ItemNotFound("Subárbol vacío");
         }
         Node<E> actual = node;
-
+        // El mayor elemento siempre está en el extremo derecho
         while (actual.right != null) {
             actual = actual.right;
         }
         return search(actual.data);
     }
 
+    // Método público: Inicia la búsqueda del máximo desde la raíz
     public E findMax() throws ItemNotFound {
         if (isEmpty()) {
             throw new ItemNotFound("El árbol BST está vacío");
@@ -147,12 +155,13 @@ public class LinkedBST<E extends Comparable<E>>
 
     @Override
     public String toString() {
-
         StringBuilder sb = new StringBuilder();
         inOrder(this.root, sb);
         return sb.toString();
     }
 
+    // Recorrido In-Orden: Izquierda -> Raíz -> Derecha
+    // PROPIEDAD CLAVE: En un BST, este recorrido SIEMPRE devuelve los datos ordenados de menor a mayor.
     private void inOrder(Node<E> actual, StringBuilder sb) {
         if (actual != null) {
             inOrder(actual.left, sb);
