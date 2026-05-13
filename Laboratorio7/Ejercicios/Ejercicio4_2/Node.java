@@ -2,8 +2,8 @@ package lab07.ejercicios.ejercicio4p2;
 
 class Node<T> {
     T data;
-    Node<T> left;
-    Node<T> right;
+    Node<T> left;  // Puntero al subárbol de elementos menores
+    Node<T> right; // Puntero al subárbol de elementos mayores
 
     public Node(T data) {
         this.data = data;
