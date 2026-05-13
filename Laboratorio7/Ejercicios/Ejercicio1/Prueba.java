@@ -16,6 +16,7 @@ public class Prueba {
             }
             System.out.println("\nÁrbol construido correctamente.");
         } catch (ItemDuplicated e) {
+            // Se atrapa por si el arreglo de prueba contuviera repetidos
             System.out.println("Error al insertar: " + e.getMessage());
         }
 
@@ -36,15 +37,17 @@ public class Prueba {
 
         try {
             System.out.print("Buscando 21... ");
-            Integer resultado = arbol.search(21);
+            Integer resultado = arbol.search(21); // Al no existir, el método lanzará ItemNotFound
             System.out.println("¡Éxito! Se encontró el nodo con valor " + resultado);
         } catch (ItemNotFound e) {
+            // El catch captura la excepción para evitar que el programa "crashee"
             System.out.println("\nLo que ocurre: El programa lanza una excepción porque la recursión llega a un nodo nulo.");
             System.out.println("Mensaje de la excepción capturada: " + e.getMessage());
         }
 
         System.out.println("\n=== d) ANÁLISIS BÁSICO ===");
         try {
+            // Se encapsula en un try-catch porque findMin() y findMax() podrían lanzar error si el árbol estuviera vacío
             System.out.println("1. Altura del árbol : " + arbol.height());
             System.out.println("2. Nodos hoja       : " + arbol.countLeaves());
             System.out.println("3. Nodo Mínimo      : " + arbol.findMin());
