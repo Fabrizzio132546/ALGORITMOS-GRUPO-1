@@ -10,9 +10,9 @@ public class Prueba {
 
         System.out.println("--- PRUEBA DE ÁRBOL BINARIO DE BÚSQUEDA ---");
 
+        // Uso obligatorio de try-catch porque insert() lanza una Checked Exception
         try {
-
-            System.out.println("Insertando 400 (Raíz)...");
+            System.out.println("Insertando 400 (Raíz)..."); // El primer insert define la raíz
             arbol.insert(400);
             
             System.out.println("Insertando 100...");
@@ -33,7 +33,9 @@ public class Prueba {
             System.out.println("\n--- RESULTADO DEL RECORRIDO ---");
             System.out.println("Recorrido Post-Orden esperado : 75 50 200 100 700 400");
             System.out.print("Recorrido Post-Orden obtenido : ");
-            System.out.println(arbol.toString());
+            
+            // Llama implícitamente a toString(), que ejecuta el postOrder
+            System.out.println(arbol.toString()); 
 
         } catch (ItemDuplicated e) {
             System.out.println("Error al insertar: " + e.getMessage());
