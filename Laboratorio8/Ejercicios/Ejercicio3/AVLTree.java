@@ -288,38 +288,4 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E> {
         }
         return node;
     }
-    
-    
-    
-    
-    //===========================
-    // EJERCICIO 4: 
-    //===========================
-    
-    public void recorridoAmplitudRecursivo() {
-        if (isEmpty()) {
-            System.out.println("El árbol está vacío.");
-            return;
-        }
-        
-        // Obtenemos la altura del árbol (reutilizamos tu método height del padre)
-        int h = height(this.root.data); 
-        
-        for (int i = 0; i <= h; i++) {
-            imprimirNivel((NodeAVL) this.root, i);
-        }
-        System.out.println();
-    }
-
-    private void imprimirNivel(NodeAVL nodo, int nivel) {
-        if (nodo == null) {
-            return;
-        }
-        if (nivel == 0) {
-            System.out.print(nodo.data + " ");
-        } else if (nivel > 0) {
-            imprimirNivel((NodeAVL) nodo.left, nivel - 1);
-            imprimirNivel((NodeAVL) nodo.right, nivel - 1);
-        }
-    }
 }
