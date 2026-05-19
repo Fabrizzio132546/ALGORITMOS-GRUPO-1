@@ -26,8 +26,8 @@ public class TestAVL {
             System.out.println("Inorden: " + avl.getInOrder());
             
             // Búsquedas comparativas
-            System.out.println("\nBuscando el 70 en BST... Encontrado: " + bst.search(70));
-            System.out.println("Buscando el 70 en AVL... Encontrado: " + avl.search(70));
+            System.out.println("\nBuscando el 70 en BST: " + bst.search(70));
+            System.out.println("Buscando el 70 en AVL: " + avl.search(70));
 
         } catch (ItemDuplicated e) {
             System.err.println("Error de duplicado en Ejercicio 2: " + e.getMessage());
