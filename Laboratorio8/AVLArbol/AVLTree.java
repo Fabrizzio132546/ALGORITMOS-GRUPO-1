@@ -302,7 +302,7 @@ public class AVLTree<E extends Comparable<E>> extends LinkedBST<E> {
             return;
         }
         
-        // Obtenemos la altura del árbol (reutilizamos tu método height del padre)
+        // Obtenemos la altura del árbol, reutilizamos el metodo de la clase padre
         int h = height(this.root.data); 
         
         for (int i = 0; i <= h; i++) {
