@@ -149,54 +149,52 @@ class BTree<E extends Comparable<E>> {
         
         return median; 
     }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-10s %-25s %-12s %-15s\n", "Id.Nodo", "Claves Nodo", "Id.Padre", "Id.Hijos"));
+        sb.append(String.format(
+            "%-10s %-25s %-12s %-15s\n",
+            "Id.Nodo", "Claves Nodo", "Id.Padre", "Id.Hijos"
+        ));
         if (isEmpty()) {
             sb.append("BTree is empty...");
         } else {
-            sb.append(writeTree(this.root));
+            sb.append(writeTree(this.root, null));
         }
         return sb.toString();
-    }
-
-    private String writeTree(BNode<E> current) {
-        return writeTree(current, "--");
     }
 
     private String writeTree(BNode<E> current, String parentId) {
         if (current == null) {
             return "";
         }
-        
         StringBuilder sb = new StringBuilder();
         String idStr = String.valueOf(current.idNode);
-        String keysStr = current.toString(); 
-        String parentStr = (parentId == null || parentId.equals("--")) ? "--" : "[" + parentId + "]";
+        String keysStr = current.toString();
+        String parentStr = (parentId == null) ? "--" : "[" + parentId + "]";
         String childrenStr = "--";
-        if (current.childs.get(0) != null) {
-            StringBuilder cb = new StringBuilder("[");
-            boolean firstChild = true;
-            
-            for (int i = 0; i <= current.count; i++) {
-                BNode<E> child = current.childs.get(i);
-                if (child != null) {
-                    if (!firstChild) {
-                        cb.append(", ");
-                    }
-                    cb.append(child.idNode);
-                    firstChild = false;
+        StringBuilder cb = new StringBuilder("[");
+        boolean firstChild = true;
+        for (int i = 0; i <= current.count; i++) {
+            BNode<E> child = current.childs.get(i);
+            if (child != null) {
+                if (!firstChild) {
+                    cb.append(", ");
                 }
+                cb.append(child.idNode);
+                firstChild = false;
             }
+        }
+        if (!firstChild) {
             cb.append("]");
             childrenStr = cb.toString();
         }
-        sb.append(String.format("%-10s %-25s %-12s %-15s\n", idStr, keysStr, parentStr, childrenStr));
+        sb.append(String.format("%-10s %-25s %-12s %-15s\n",idStr,keysStr,parentStr,childrenStr));
         for (int i = 0; i <= current.count; i++) {
-            if (current.childs.get(i) != null) {
-                sb.append(writeTree(current.childs.get(i), idStr));
+            BNode<E> child = current.childs.get(i);
+
+            if (child != null) {
+                sb.append(writeTree(child, idStr));
             }
         }
         return sb.toString();
