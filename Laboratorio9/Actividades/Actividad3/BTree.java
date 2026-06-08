@@ -201,49 +201,4 @@ class BTree<E extends Comparable<E>> {
         }
         return sb.toString();
     }
-    
-    
-    public void searchRange(E min, E max) {
-        if (min == null || max == null) {
-            System.out.println("Error: Los límites del rango no pueden ser nulos.");
-            return;
-        }
-        if (min.compareTo(max) > 0) {
-            System.out.println("Rango inválido: el valor mínimo es mayor que el valor máximo.");
-            return;
-        }
-        if (isEmpty()) {
-            System.out.println("El árbol B está vacío.");
-            return;
-        }
-        System.out.print("Claves en el rango [" + min + ", " + max + "]: ");
-        boolean[] found = new boolean[1]; 
-        searchRange(this.root, min, max, found);
-
-        if (!found[0]) {
-            System.out.print("No existen claves en ese rango.");
-        }
-        System.out.println();
-    }
-    private void searchRange(BNode<E> current, E min, E max, boolean[] found) {
-        if (current == null) {
-            return;
-        }
-        int i;
-        for (i = 0; i < current.count; i++) {
-            E currentKey = current.keys.get(i);
-            if (currentKey.compareTo(min) >= 0) {
-                searchRange(current.childs.get(i), min, max, found);
-            }
-            if (currentKey.compareTo(min) >= 0 && currentKey.compareTo(max) <= 0) {
-                System.out.print(currentKey + " ");
-                found[0] = true;
-            }
-
-            if (currentKey.compareTo(max) > 0) {
-                return; 
-            }
-        }
-        searchRange(current.childs.get(i), min, max, found);
-    }
 }
