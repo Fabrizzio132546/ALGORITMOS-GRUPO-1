@@ -45,11 +45,8 @@ class BTree<E extends Comparable<E>> {
         this.root = null;
     }
 
-    public boolean search(E cl) {
-        return search(this.root, cl);
-    }
-
     private boolean search(BNode<E> current, E cl) {
+        // Guardar inicial
         if (current == null) {
             return false;
         }
@@ -58,10 +55,16 @@ class BTree<E extends Comparable<E>> {
         boolean encontrado = current.searchNode(cl, pos);
         
         if (encontrado) {
+            // Caso base 1: Éxito
             System.out.println(cl + " se encuentra en el nodo " + current.idNode + " en la posición " + pos[0]); 
             return true;
         } else {
+            // --- OPTIMIZACIÓN: Verificamos si no hay hijos (es un nodo hoja) ---
+            if (current.childs.get(0) == null) {
+                return false; // Detiene la búsqueda inmediatamente
+            }
+            
+            // Paso recursivo: Si no es hoja, descendemos por la rama correspondiente
             return search(current.childs.get(pos[0]), cl);
         }
     }
-}
