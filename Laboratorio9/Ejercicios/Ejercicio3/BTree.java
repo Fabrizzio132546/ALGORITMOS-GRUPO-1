@@ -302,7 +302,6 @@ class BTree<E extends Comparable<E>> {
                 return;
             }
 
-            boolean isLastChild = (ind == node.count);
             remove(node.childs.get(ind), cl);
 
             // Si el hijo donde descendimos quedó con menos del mínimo, lo rellenamos
