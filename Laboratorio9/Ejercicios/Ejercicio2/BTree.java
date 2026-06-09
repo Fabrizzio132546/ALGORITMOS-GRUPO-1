@@ -146,28 +146,35 @@ class BTree<E extends Comparable<E>> {
         current.count++; 
     }
 
-    private E dividedNode(BNode<E> current, E cl, int k) {
-        BNode<E> rd = nDes; 
-        int i, posMdna;
-        posMdna = (k <= this.orden / 2) ? this.orden / 2 : this.orden / 2 + 1; 
-        nDes = new BNode<E>(this.orden); 
-        for (i = posMdna; i < this.orden - 1; i++) { 
-            nDes.keys.set(i - posMdna, current.keys.get(i)); 
-            nDes.childs.set(i - posMdna + 1, current.childs.get(i + 1)); 
-        }
-        nDes.count = (this.orden - 1) - posMdna; 
-        current.count = posMdna; 
-        if (k <= this.orden / 2) {
-            putNode(current, cl, rd, k); 
-        } else {
-            putNode(nDes, cl, rd, k - posMdna); 
-        }
-        E median = current.keys.get(current.count - 1);
-        nDes.childs.set(0, current.childs.get(current.count)); 
-        current.count--; 
-        
-        return median; 
+private E dividedNode(BNode<E> current, E cl, int k) {
+    BNode<E> rd = nDes; 
+    int i, posMdna;
+
+    posMdna = (k <= this.orden / 2) ? this.orden / 2 : this.orden / 2 + 1; 
+
+    nDes = new BNode<E>(this.orden); 
+    for (i = posMdna; i < this.orden - 1; i++) { 
+        nDes.keys.set(i - posMdna, current.keys.get(i)); 
+        nDes.childs.set(i - posMdna + 1, current.childs.get(i + 1));
+        current.keys.set(i, null);
+        current.childs.set(i + 1, null);
     }
+    nDes.count = (this.orden - 1) - posMdna; 
+    current.count = posMdna; 
+
+    if (k <= this.orden / 2) {
+        putNode(current, cl, rd, k); 
+    } else {
+        putNode(nDes, cl, rd, k - posMdna); 
+    }
+    E median = current.keys.get(current.count - 1);
+
+    nDes.childs.set(0, current.childs.get(current.count));
+    current.keys.set(current.count - 1, null);
+    current.childs.set(current.count, null);
+    current.count--; 
+    return median; 
+}
 
     @Override
     public String toString() {
