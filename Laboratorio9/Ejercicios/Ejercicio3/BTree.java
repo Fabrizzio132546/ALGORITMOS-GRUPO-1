@@ -359,7 +359,6 @@ class BTree<E extends Comparable<E>> {
         return current.keys.get(0);
     }
 
-    // Solucionar el subdesbordamiento (redistribución o fusión)
     private void fill(BNode<E> node, int ind) { 
         int minKeys = (this.orden - 1) / 2;
 
@@ -376,7 +375,6 @@ class BTree<E extends Comparable<E>> {
         }
     }
 
-    // Redistribución: pedir prestado al hermano izquierdo
     private void borrowFromPrev(BNode<E> node, int ind) { 
         BNode<E> child = node.childs.get(ind);
         BNode<E> hermano = node.childs.get(ind - 1); 
@@ -404,7 +402,6 @@ class BTree<E extends Comparable<E>> {
         hermano.count -= 1;
     }
 
-    // Redistribución: pedir prestado al hermano derecho
     private void borrowFromNext(BNode<E> node, int ind) { 
         BNode<E> child = node.childs.get(ind);
         BNode<E> hermano = node.childs.get(ind + 1); 
@@ -433,7 +430,6 @@ class BTree<E extends Comparable<E>> {
         hermano.count -= 1;
     }
 
-    // Fusión (Merge) de dos nodos hermanos
     private void merge(BNode<E> node, int ind) { 
         BNode<E> child = node.childs.get(ind);
         BNode<E> hermano = node.childs.get(ind + 1); 
