@@ -20,7 +20,7 @@ public class BTree<E extends Comparable<E>> {
         boolean[] found = new boolean[1];
         BNode<E> resultNode = searchWithPathRec(this.root, cl, path, found);
         if (!found[0]) {
-            path.append("\n❌ La clave no existe en el árbol.");
+            path.append("\n La clave no existe en el árbol.");
         }
         return path.toString();
     }
@@ -36,7 +36,7 @@ public class BTree<E extends Comparable<E>> {
         
         if (nodeFound) {
             found[0] = true;
-            path.append("\n✅ ¡Clave encontrada en el Nodo ID ").append(current.idNode)
+            path.append("\n ¡Clave encontrada en el Nodo ID ").append(current.idNode)
                 .append(" en la posición ").append(pos[0]).append("!\n");
             return current;
         } else {
