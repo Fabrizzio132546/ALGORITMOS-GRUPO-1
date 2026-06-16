@@ -337,7 +337,7 @@ public abstract class GraphListEdge<E extends Comparable<E>>
         return count;
     }
 
-    // nombre en español para usarlo de forma mas clara en las pruebas
+    //  para usarlo de forma mas clara en las pruebas
     public boolean isIsomorfo(GraphListEdge<E> other) {
         return isIsomorphic(other);
     }
