@@ -1,15 +1,18 @@
 package lab11.ejercicios.ejercicio5;
 import hash.*;
 
+package lab11.ejercicios.ejercicio5;
+import hash.*;
+
 public class HashC<E> {
 
     private static class Element<E> {
         Register<E> register;
-        boolean isAvailable;
+        int mark; // 0 = EMPTY, 1 = OCCUPIED, -1 = DELETED
 
         public Element() {
             this.register = null;
-            this.isAvailable = true;
+            this.mark = 0; 
         }
     }
 
@@ -36,50 +39,61 @@ public class HashC<E> {
         return Math.floorMod(key, size);
     }
 
-    public void insert(Register<E> reg) {
-        if (reg == null) {
-            return;
-        }
-
-        int initialPos = hash(reg.getKey());
+    private int linearProbing(int initialPos, int key) {
         int targetPos = -1;
 
         for (int i = 0; i < size; i++) {
             int pos = (initialPos + i) % size;
             Element<E> current = table[pos];
 
-            if (current.register != null && !current.isAvailable && current.register.getKey() == reg.getKey()) {
-                current.register = reg;
-                return;
+            // Si el elemento ya existe, devolvemos su posición
+            if (current.mark == 1 && current.register.getKey() == key) {
+                return pos;
             }
 
-            if (current.register != null && current.isAvailable && targetPos == -1) {
+            // Guardamos la primera posición eliminada que encontremos
+            if (current.mark == -1 && targetPos == -1) {
                 targetPos = pos;
             }
 
-            if (current.register == null) {
-                if (targetPos == -1) {
-                    targetPos = pos;
+            // Si encontramos un espacio vacío
+            if (current.mark == 0) {
+                if (targetPos != -1) {
+                    return targetPos; // Preferimos usar la celda borrada si existe
                 }
-                table[targetPos].register = reg;
-                table[targetPos].isAvailable = false;
-                numElements++;
-                checkRehash(); // Verificar si superamos el factor de carga
-                return;
+                return pos;
             }
         }
 
-        if (targetPos != -1) {
-            table[targetPos].register = reg;
-            table[targetPos].isAvailable = false;
+        return targetPos;
+    }
+
+    public void insert(Register<E> reg) {
+        if (reg == null) {
+            return;
+        }
+
+        int initialPos = hash(reg.getKey());
+        int pos = linearProbing(initialPos, reg.getKey());
+
+        if (pos == -1) {
+            System.out.println("Error: tabla hash llena");
+            return;
+        }
+
+        // Detectar si estamos insertando un nuevo elemento o actualizando uno existente
+        boolean isNewElement = (table[pos].mark != 1 || table[pos].register.getKey() != reg.getKey());
+
+        table[pos].register = reg;
+        table[pos].mark = 1;
+
+        // Solo aumentamos el contador y verificamos el rehash si es un elemento nuevo
+        if (isNewElement) {
             numElements++;
             checkRehash();
-        } else {
-            System.out.println("Error: tabla hash llena");
         }
     }
 
-    // --- LÓGICA DE REHASHING DINÁMICO ---
     private void checkRehash() {
         double alpha = (double) numElements / size;
         System.out.printf("Factor de carga actual (alfa): %.2f%n", alpha);
@@ -122,9 +136,9 @@ public class HashC<E> {
             table[i] = new Element<>();
         }
 
-        // Re-insertar elementos válidos
+        // Re-insertar elementos válidos basándonos en la marca (mark == 1)
         for (Element<E> current : oldTable) {
-            if (current.register != null && !current.isAvailable) {
+            if (current.mark == 1) {
                 insert(current.register); 
             }
         }
@@ -139,12 +153,15 @@ public class HashC<E> {
             int pos = (initialPos + i) % size;
             Element<E> current = table[pos];
 
-            if (current.register == null) return null;
+            if (current.mark == 0) {
+                return null;
+            }
 
-            if (current.register != null && !current.isAvailable && current.register.getKey() == key) {
+            if (current.mark == 1 && current.register.getKey() == key) {
                 return current.register;
             }
         }
+
         return null;
     }
 
@@ -155,11 +172,13 @@ public class HashC<E> {
             int pos = (initialPos + i) % size;
             Element<E> current = table[pos];
 
-            if (current.register == null) return;
+            if (current.mark == 0) {
+                return;
+            }
 
-            if (current.register != null && !current.isAvailable && current.register.getKey() == key) {
-                current.isAvailable = true;
-                numElements--; 
+            if (current.mark == 1 && current.register.getKey() == key) {
+                current.mark = -1; // Marcamos como eliminado
+                numElements--;     // Reducimos el número de elementos
                 return;
             }
         }
@@ -169,10 +188,10 @@ public class HashC<E> {
         for (int pos = 0; pos < size; pos++) {
             System.out.print(pos + ": ");
 
-            if (table[pos].register == null) {
+            if (table[pos].mark == 0) {
                 System.out.println("EMPTY");
-            } else if (table[pos].isAvailable) {
-                System.out.println("DELETED -> " + table[pos].register);
+            } else if (table[pos].mark == -1) {
+                System.out.println("DELETED -> antes: " + table[pos].register);
             } else {
                 System.out.println(table[pos].register);
             }
