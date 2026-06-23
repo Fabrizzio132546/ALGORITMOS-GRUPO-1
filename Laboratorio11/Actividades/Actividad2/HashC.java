@@ -4,11 +4,11 @@ public class HashC<E> {
 
     private static class Element<E> {
         Register<E> register;
-        boolean isAvailable;
+        int mark; // 0 = EMPTY, 1 = OCCUPIED, -1 = DELETED
 
         public Element() {
             this.register = null;
-            this.isAvailable = true;
+            this.mark = 0;
         }
     }
 
@@ -33,50 +33,52 @@ public class HashC<E> {
         return Math.floorMod(key, size);
     }
 
-    public void insert(Register<E> reg) {
-        if (reg == null) {
-            return;
-        }
-
-        int initialPos = hash(reg.getKey());
+    private int linearProbing(int initialPos, int key) {
         int targetPos = -1;
 
         for (int i = 0; i < size; i++) {
             int pos = (initialPos + i) % size;
             Element<E> current = table[pos];
 
-            if (current.register != null &&
-                !current.isAvailable &&
-                current.register.getKey() == reg.getKey()) {
+            if (current.mark == 1 &&
+                current.register.getKey() == key) {
 
-                current.register = reg;
-                return;
+                return pos;
             }
 
-            if (current.register != null &&
-                current.isAvailable &&
+            if (current.mark == -1 &&
                 targetPos == -1) {
 
                 targetPos = pos;
             }
 
-            if (current.register == null) {
-                if (targetPos == -1) {
-                    targetPos = pos;
+            if (current.mark == 0) {
+                if (targetPos != -1) {
+                    return targetPos;
                 }
 
-                table[targetPos].register = reg;
-                table[targetPos].isAvailable = false;
-                return;
+                return pos;
             }
         }
 
-        if (targetPos != -1) {
-            table[targetPos].register = reg;
-            table[targetPos].isAvailable = false;
-        } else {
-            System.out.println("Error: tabla hash llena");
+        return targetPos;
+    }
+
+    public void insert(Register<E> reg) {
+        if (reg == null) {
+            return;
         }
+
+        int initialPos = hash(reg.getKey());
+        int pos = linearProbing(initialPos, reg.getKey());
+
+        if (pos == -1) {
+            System.out.println("Error: tabla hash llena");
+            return;
+        }
+
+        table[pos].register = reg;
+        table[pos].mark = 1;
     }
 
     public Register<E> search(int key) {
@@ -86,12 +88,11 @@ public class HashC<E> {
             int pos = (initialPos + i) % size;
             Element<E> current = table[pos];
 
-            if (current.register == null) {
+            if (current.mark == 0) {
                 return null;
             }
 
-            if (current.register != null &&
-                !current.isAvailable &&
+            if (current.mark == 1 &&
                 current.register.getKey() == key) {
 
                 return current.register;
@@ -108,15 +109,14 @@ public class HashC<E> {
             int pos = (initialPos + i) % size;
             Element<E> current = table[pos];
 
-            if (current.register == null) {
+            if (current.mark == 0) {
                 return;
             }
 
-            if (current.register != null &&
-                !current.isAvailable &&
+            if (current.mark == 1 &&
                 current.register.getKey() == key) {
 
-                current.isAvailable = true;
+                current.mark = -1;
                 return;
             }
         }
@@ -126,9 +126,9 @@ public class HashC<E> {
         for (int pos = 0; pos < size; pos++) {
             System.out.print(pos + ": ");
 
-            if (table[pos].register == null) {
+            if (table[pos].mark == 0) {
                 System.out.println("EMPTY");
-            } else if (table[pos].isAvailable) {
+            } else if (table[pos].mark == -1) {
                 System.out.println("DELETED antes: " + table[pos].register);
             } else {
                 System.out.println(table[pos].register);
@@ -136,8 +136,5 @@ public class HashC<E> {
         }
     }
 }
-
-
-
 
 
