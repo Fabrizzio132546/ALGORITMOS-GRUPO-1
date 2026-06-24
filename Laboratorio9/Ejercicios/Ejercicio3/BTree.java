@@ -156,6 +156,8 @@ class BTree<E extends Comparable<E>> {
         for (i = posMdna; i < this.orden - 1; i++) { 
             nDes.keys.set(i - posMdna, current.keys.get(i)); 
             nDes.childs.set(i - posMdna + 1, current.childs.get(i + 1)); 
+            current.keys.set(i, null);
+            current.childs.set(i + 1, null);
         }
         nDes.count = (this.orden - 1) - posMdna; 
         current.count = posMdna; 
