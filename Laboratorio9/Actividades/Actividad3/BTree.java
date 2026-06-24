@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-class BNode<E> {
+class BNode<E extends Comparable<E>> {
     private static int idCounter = 1;
     
     protected int idNode; 
@@ -30,10 +30,10 @@ class BNode<E> {
 
     public boolean searchNode(E cl, int[] pos) {
         pos[0] = 0;
-        while (pos[0] < this.count && ((Comparable<E>) cl).compareTo(this.keys.get(pos[0])) > 0) {
+        while (pos[0] < this.count && cl.compareTo(this.keys.get(pos[0])) > 0) {
             pos[0]++;
         }
-        if (pos[0] < count && ((Comparable<E>) cl).compareTo(keys.get(pos[0])) == 0) {
+        if (pos[0] < count && cl.compareTo(keys.get(pos[0])) == 0) {
             return true;
         }
         return false;
