@@ -135,7 +135,9 @@ class BTree<E extends Comparable<E>> {
         nDes = new BNode<E>(this.orden);  // nuevo q se usara en esta division
         for (i = posMdna; i < this.orden - 1; i++) { 
             nDes.keys.set(i - posMdna, current.keys.get(i)); 
-            nDes.childs.set(i - posMdna + 1, current.childs.get(i + 1)); 
+            nDes.childs.set(i - posMdna + 1, current.childs.get(i + 1));
+            current.keys.set(i, null);
+            current.childs.set(i + 1, null);
         }
         nDes.count = (this.orden - 1) - posMdna; 
         current.count = posMdna; 
