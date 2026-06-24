@@ -33,7 +33,7 @@ class BNode<E> {
         while (pos[0] < this.count && ((Comparable<E>) cl).compareTo(this.keys.get(pos[0])) > 0) {
             pos[0]++;
         }
-        if (pos[0] < count && ((Comparable<E>) key).compareTo(keys.get(pos[0])) == 0) {
+        if (pos[0] < count && ((Comparable<E>) cl).compareTo(keys.get(pos[0])) == 0) {
             return true;
         }
         return false;
