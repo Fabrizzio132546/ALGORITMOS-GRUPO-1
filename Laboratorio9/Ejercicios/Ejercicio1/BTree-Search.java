@@ -46,7 +46,6 @@ class BTree<E extends Comparable<E>> {
     }
 
     private boolean search(BNode<E> current, E cl) {
-        // Guardar inicial
         if (current == null) {
             return false;
         }
