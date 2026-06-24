@@ -103,9 +103,10 @@ class BTree<E extends Comparable<E>> {
             }
             mediana = push(current.childs.get(pos[0]), cl); 
             
-            if (up) {
-                if (current.nodeFull(this.orden - 1)) {
+            if (up) { // dos posibilidades
+                if (current.nodeFull(this.orden - 1)) { // dividir por q esta lleno
                     mediana = dividedNode(current, mediana, pos[0]); 
+                    //hay espacio
                 } else {
                     up = false; 
                     putNode(current, mediana, nDes, pos[0]); 
@@ -128,10 +129,10 @@ class BTree<E extends Comparable<E>> {
     }
 
     private E dividedNode(BNode<E> current, E cl, int k) {
-        BNode<E> rd = nDes; 
+        BNode<E> rd = nDes;  // guardar el anterior q venia de abajo
         int i, posMdna;
         posMdna = (k <= this.orden / 2) ? this.orden / 2 : this.orden / 2 + 1; 
-        nDes = new BNode<E>(this.orden); 
+        nDes = new BNode<E>(this.orden);  // nuevo q se usara en esta division
         for (i = posMdna; i < this.orden - 1; i++) { 
             nDes.keys.set(i - posMdna, current.keys.get(i)); 
             nDes.childs.set(i - posMdna + 1, current.childs.get(i + 1)); 
